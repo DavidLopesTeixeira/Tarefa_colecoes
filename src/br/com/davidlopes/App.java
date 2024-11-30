@@ -1,5 +1,7 @@
 package br.com.davidlopes;
 
+import br.com.davidlopes.models.Pessoa;
+
 import java.util.Scanner;
 
 public class App {
@@ -19,6 +21,7 @@ public class App {
         boolean isCompleted = false;
         boolean dadosValidos = false;
         int opcao;
+
 
         System.out.println("Seja bem-vindo!");
 
@@ -44,7 +47,23 @@ public class App {
                                 System.out.println("Verifique se os dados estão corretos, digite S para confirmar ou N para corrigir.");
                                 String correto = scan.nextLine().toUpperCase();
                                 if (correto.equals("S")) {
-                                    dadosValidos = true;
+                                    //TODO criar o obj Pessoa
+                                    String[] dadosSeparados = dados.split(" ");
+                                    if (dadosSeparados.length == 3) {
+                                        String nome = dadosSeparados[0];
+                                        String sobrenome = dadosSeparados[1];
+                                        String sexo = dadosSeparados[2].toLowerCase();
+
+                                        if (!nome.isEmpty() || !sobrenome.isEmpty() || !sexo.isEmpty()) {
+                                            Pessoa pessoa = new Pessoa(nome, sobrenome, sexo);
+                                            tratarGeneros(pessoa);
+                                            dadosValidos = true;
+                                        }
+                                    } else {
+                                        System.out.println("Você precisa preencher todas as informações solicitadas.");
+                                    }
+
+
                                 } else if (correto.equals("N")) {
                                     System.out.println("OK, vamoos corrigir as informações");
                                     System.out.println("Digite o nome, sobrenome e sexo separados por um espaço");
@@ -77,5 +96,27 @@ public class App {
 
         } while (!isCompleted);
 
+    }
+
+    private static void tratarGeneros(Pessoa pessoa) {
+        System.out.println("Pessoa nome: " + pessoa.getNome() + " sobrenome: " + pessoa.getSobrenome() + " sexo: " + pessoa.getSexo());
+        String sexo = pessoa.getSexo().toLowerCase();
+        switch (sexo) {
+            case "masculino":
+            case "homem":
+            case "m":
+                pessoa.setSexo("m");
+                break;
+
+            case "feminino":
+            case "mulher":
+            case "f":
+                pessoa.setSexo("f");
+                break;
+            default:
+                System.out.println("Não identifiquei seu sexo, tente novamente.");
+                return;
+        }
+        System.out.println("Sexo -> " + pessoa.getSexo());
     }
 }
