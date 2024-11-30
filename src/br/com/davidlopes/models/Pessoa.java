@@ -1,6 +1,6 @@
 package br.com.davidlopes.models;
 
-public class Pessoa {
+public class Pessoa implements Comparable<Pessoa> {
     String nome;
     String sobrenome;
     String sexo;
@@ -36,5 +36,21 @@ public class Pessoa {
         this.sexo = sexo;
     }
 
+    @Override
+    public int compareTo(Pessoa outraPessoa) {
+
+        int comparacaoSobrenome = this.sobrenome.compareTo(outraPessoa.getSobrenome());
+
+        if (comparacaoSobrenome != 0) {
+            return comparacaoSobrenome;
+        }
+
+        return this.nome.compareTo(outraPessoa.getNome());
+    }
+
+    @Override
+    public String toString() {
+        return "Nome: " + nome + " " + sobrenome + ", Sexo: " + sexo;
+    }
 
 }
